@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Welcome, {{ username }}!</h1>
+    <div class="task-form">
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div>{{ form.title.label }} {{ form.title(placeholder="Enter task title") }}</div>
+            <div>{{ form.description.label }} {{ form.description(placeholder="Add some details (optional)") }}</div>
+            <div>{{ form.submit() }}</div>
+        </form>
+    </div>
+    <div class="task-list">
+        {% for task in tasks %}
+            <div class="task-item {% if task.completed %}completed{% endif %}">
+                <div>
+                    <strong>{{ task.title }}</strong><br>
+                    <small>{{ task.description or "No description" }}</small>
+                </div>
+                <div>
+                    <form method="POST" action="{{ url_for('toggle_task', task_id=task.id) }}" style="display:inline;">
+                        <button type="submit">{{ 'Mark Incomplete' if task.completed else 'Mark Complete' }}</button>
+                    </form>
+                    <form method="POST" action="{{ url_for('delete_task', task_id=task.id) }}" style="display:inline;">
+                        <button type="submit">Delete</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <p><a href="{{ url_for('logout') }}">Logout</a></p>
+{% endblock %}
