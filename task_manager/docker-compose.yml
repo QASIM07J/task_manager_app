@@ -3,7 +3,7 @@ services:
     image: qasim706/task-manager-app:latest
     container_name: flask_app_jenkins
     ports:
-      - "8081:5000"
+      - "5001:5000"
     environment:
       - DB_HOST=db_jenkins
       - DB_NAME=taskdb
@@ -25,4 +25,9 @@ services:
       - db_data_jenkins:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U taskuser"]
-      interval:
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db_data_jenkins:
