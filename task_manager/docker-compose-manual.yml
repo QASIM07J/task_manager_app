@@ -1,28 +1,28 @@
 services:
   web:
     image: qasim706/task-manager-app:latest
-    container_name: flask_app_jenkins
+    container_name: flask_app_manual
     ports:
-      - "5001:5000"
+      - "5000:5000"
     environment:
-      - DB_HOST=db_jenkins
+      - DB_HOST=db_manual
       - DB_NAME=taskdb
       - DB_USER=taskuser
       - DB_PASSWORD=taskpass
     depends_on:
-      db_jenkins:
+      db_manual:
         condition: service_healthy
 
-  db_jenkins:
+  db_manual:
     image: postgres:14
-    container_name: postgres_db_jenkins
+    container_name: postgres_db_manual
     restart: always
     environment:
       POSTGRES_DB: taskdb
       POSTGRES_USER: taskuser
       POSTGRES_PASSWORD: taskpass
     volumes:
-      - db_data_jenkins:/var/lib/postgresql/data
+      - db_data_manual:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U taskuser"]
       interval: 5s
@@ -30,4 +30,4 @@ services:
       retries: 5
 
 volumes:
-  db_data_jenkins:
+  db_data_manual:
