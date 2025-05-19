@@ -1,7 +1,7 @@
 services:
   web:
     image: qasim706/task-manager-app:latest
-    container_name: flask_app
+    container_name: flask_app_jenkins
     ports:
       - "5001:5000"
     environment:
@@ -15,14 +15,14 @@ services:
 
   db:
     image: postgres:14
-    container_name: postgres_db
+    container_name: postgres_db_jenkins
     restart: always
     environment:
       POSTGRES_DB: taskdb
       POSTGRES_USER: taskuser
       POSTGRES_PASSWORD: taskpass
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - db_data_jenkins:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U taskuser"]
       interval: 5s
@@ -30,4 +30,4 @@ services:
       retries: 5
 
 volumes:
-  db_data:
+  db_data_jenkins:
